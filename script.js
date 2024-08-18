@@ -4,8 +4,6 @@ const random = document.getElementById("random");
 const mealEl = document.getElementById("meals");
 const resultHeading = document.getElementById("result-heading");
 
-
-console.log(mealEl);
 const singleMeal = document.getElementById("single-meal");
 
 function searchMeal(e) {
@@ -23,16 +21,16 @@ function searchMeal(e) {
         if (data.meals === null) {
           resultHeading.innerHTML = `<p>Results are not availaible for the term enter. Try Again !</p>`;
         } else {
-          mealEl.innerHTML = data.meals.map(
-            (meal) => `<div class="meal">
+          mealEl.innerHTML = data.meals
+            .map(
+              (meal) => `<div class="meal">
             <img src="${meal.strMealThumb}" alt="${meal.strMealThumb}"/>
-            <div class ="meal-info">
-            
-            <p>${meal.strMeal}</p>
+            <div class ="meal-info" data-mealID = "${meal.idMeal}">
+            <h3>${meal.strMeal}</h3>
             </div>
-            
             </div>`
-          ).join('');
+            )
+            .join("");
         }
       });
     search.value = "";
