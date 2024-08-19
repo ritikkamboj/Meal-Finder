@@ -11,45 +11,54 @@ function getMealById(mealId) {
     .then((res) => res.json())
     .then((data) => {
       const meal = data.meals[0];
-      console.log(meal)
+      console.log(meal);
 
       addMealToDOM(meal);
     });
 }
 
+function addMealToDOM(meal) {
+  const ingredients = [];
 
-function addMealToDOM(meal)
-{
-  const ingredients =[];
-
- 
-
-  for(let i =1 ; i<=20; i++)
-  {
-    if(meal[`strIngredient${i}`])
-    {
-      ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`)
+  for (let i = 1; i <= 20; i++) {
+    if (meal[`strIngredient${i}`]) {
+      ingredients.push(
+        `${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`
+      );
       console.log(ingredients);
+    } else {
+      break;
     }
-    else{
-      break; 
-    }
-  } 
-  singleMeal.innerHTML= `<div class ="single-meal">
+  }
+  singleMeal.innerHTML = `<div class ="single-meal">
   <h1>${meal.strMeal}</h1>
   <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
   <div class = 'single-meal-info'>
   ${meal.strcategory ? `<p>${meal.strCategory}</p>` : ``}
-  ${meal.strCategory ? `<p>${meal.strArea }</p>` : ``}
+  ${meal.strCategory ? `<p>${meal.strArea}</p>` : ``}
   </div>
   <div class = 'main'>
     <p>${meal.strInstructions}</p>
     <h2>Ingredients</h2>
     <ul>
-    ${ingredients.map(ing => `<li>${ing}</li>`).join('')}
+    ${ingredients.map((ing) => `<li>${ing}</li>`).join("")}
     </ul>
   </div>
-  </div>`
+  </div>`;
+}
+function getRandomData() {
+  resultHeading.innerHTML = ``;
+  mealEl.innerHTML = ``;
+  singleMeal.innerHTML = ``;
+
+  fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
+    .then((res) => res.json())
+    .then((data) => {
+const meal = data.meals[0];
+
+addMealToDOM(meal);
+
+    });
 }
 
 function searchMeal(e) {
@@ -86,6 +95,7 @@ function searchMeal(e) {
 }
 
 submit.addEventListener("submit", searchMeal);
+random.addEventListener("click", getRandomData);
 
 mealEl.addEventListener("click", (e) => {
   const mealInfo = e.composedPath().find((item) => {
